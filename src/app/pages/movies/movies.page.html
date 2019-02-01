@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>movies</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-virtual-scroll [items]="items">
+    <ion-item *virtualItem="let item">
+      <ion-avatar item-start>
+        <ion-img [src]="item.Poster"></ion-img>
+      </ion-avatar>
+      {{ item.Title }}
+    </ion-item>
+  </ion-virtual-scroll>
+</ion-content>
