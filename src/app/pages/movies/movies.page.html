@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>movies</ion-title>
+    <ion-title>Movies app</ion-title>
+    <ion-searchbar debounce="500" animated placeholder="Search movies" ([ngModel])="term" (ionChange)="onIonChange($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

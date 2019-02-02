@@ -12,18 +12,27 @@ export class MoviesPage implements OnInit {
   constructor(private service: MovieService) { }
 
   ngOnInit() {
+  }
+
+  onIonChange(event) {
+    this.searchMovies(event.detail.value);
+  }
+
+  searchMovies(term) {
     let movie = {
-      s: 'Terminator',
-      y: 1991,
-      type: 'movie'
+      s: term
     };
 
     this.service.search(movie).subscribe(response => {
       console.log(response);
+      if (response.Response == "False") {
+        this.items = [];
+        return;
+      }
+
       this.items = response.Search;
     }, error => {
       console.log(error);
     });
   }
-
 }
