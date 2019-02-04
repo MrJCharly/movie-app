@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-back-button slot="start" defaultHref="/"></ion-back-button>
-    <ion-title>Movie details</ion-title>
+    <ion-title>{{ details.Type || "Details" }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,30 +13,33 @@
     </ion-card-header>
     <ion-card-content>
       <img [src]="details.Poster" class="detail-img" *ngIf="details.Poster && details.Poster != 'N/A'"/>
-      {{ details.Plot }}
 
-      <ion-item lines="none">
-        <ion-icon name="videocam" slot="start"></ion-icon>
-        <ion-label text-wrap>{{ details.Genre }}</ion-label>
-      </ion-item>
+      <div margin-top>{{ details.Plot }}</div>
 
-      <ion-item lines="none">
-        <ion-icon name="star-half" slot="start"></ion-icon>
-        <ion-label text-wrap>{{ details.imdbRating }}</ion-label>
-      </ion-item>
+      <div margin-top>
+        <ion-item lines="none" color="medium">
+          <ion-icon name="videocam" slot="start"></ion-icon>
+          <ion-label text-wrap>{{ details.Genre }}</ion-label>
+        </ion-item>
 
-      <ion-item lines="none">
-        <ion-icon name="clipboard" slot="start"></ion-icon>
-        <ion-label text-wrap>{{ details.Director }}</ion-label>
-      </ion-item>
+        <ion-item lines="none" color="light">
+          <ion-icon name="star-half" slot="start"></ion-icon>
+          <ion-label text-wrap>{{ details.imdbRating }}</ion-label>
+        </ion-item>
 
-      <ion-item lines="none">
-        <ion-icon name="contact" slot="start"></ion-icon>
-        <ion-label text-wrap>{{ details.Actors }}</ion-label>
-      </ion-item>
+        <ion-item lines="none" color="medium">
+          <ion-icon name="clipboard" slot="start"></ion-icon>
+          <ion-label text-wrap>{{ details.Director }}</ion-label>
+        </ion-item>
+
+        <ion-item lines="none" color="light">
+          <ion-icon name="contact" slot="start"></ion-icon>
+          <ion-label text-wrap>{{ details.Actors }}</ion-label>
+        </ion-item>
+      </div>
 
       <ion-button expand="full" (click)="openWebsite()"
-      *ngIf="details.Website && details.Website != 'N/A'">
+      *ngIf="details.Website && details.Website != 'N/A'" margin-top>
         Open Website
       </ion-button>
     </ion-card-content>

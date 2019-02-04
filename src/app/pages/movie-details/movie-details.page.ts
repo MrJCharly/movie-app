@@ -30,6 +30,10 @@ export class MovieDetailsPage implements OnInit {
   }
 
   openWebsite() {
+    if (!this.details.Website || this.details.Website == 'N/A') {
+      return;
+    }
+
     window.open(this.details.Website, '_blank');
   }
 }
