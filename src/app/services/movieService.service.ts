@@ -23,7 +23,7 @@ export class MovieService {
     return this.http.get(url);
   }
 
-  getDetails() {
-
+  getDetails(i): Observable<any> {
+    return this.search({ i });
   }
 }

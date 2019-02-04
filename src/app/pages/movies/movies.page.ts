@@ -18,10 +18,8 @@ export class MoviesPage implements OnInit {
     this.searchMovies(event.detail.value);
   }
 
-  searchMovies(term) {
-    let movie = {
-      s: term
-    };
+  searchMovies(s) {
+    let movie = { s };
 
     this.service.search(movie).subscribe(response => {
       console.log(response);
