@@ -5,13 +5,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-virtual-scroll [items]="items">
-    <ion-item *virtualItem="let item">
-      <ion-avatar item-start>
-        <ion-img [src]="item.Poster"></ion-img>
+    <ion-item button *virtualItem="let item" [routerLink]="['/', 'movie-details', item.imdbID]" detail>
+      <ion-avatar item-start margin-end>
+        <ion-img [src]="item.Poster" *ngIf="item.Poster != 'N/A'"></ion-img>
       </ion-avatar>
-      {{ item.Title }}
+      <ion-label text-wrap>
+        <h3>{{ item.Title }}</h3>
+        {{ item.Year }}
+      </ion-label>
     </ion-item>
   </ion-virtual-scroll>
 </ion-content>
