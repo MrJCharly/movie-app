@@ -11,8 +11,7 @@ export class MoviesPage implements OnInit {
 
   constructor(private service: MovieService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   onIonChange(event) {
     this.searchMovies(event.detail.value);

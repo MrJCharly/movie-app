@@ -8,7 +8,7 @@ import { MovieService } from '../../services/movieService.service';
   styleUrls: ['./movie-details.page.scss'],
 })
 export class MovieDetailsPage implements OnInit {
-  details = {};
+  details = null;
 
   constructor (
     private activatedRoute: ActivatedRoute,
