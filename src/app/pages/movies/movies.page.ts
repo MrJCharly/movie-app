@@ -7,6 +7,10 @@ import { MovieService } from '../../services/movieService.service';
   styleUrls: ['./movies.page.scss'],
 })
 export class MoviesPage implements OnInit {
+  totalPages = 0;
+  itemsPerPage = 10;
+  term = "";
+  page = 0;
   items = [];
 
   constructor(private service: MovieService) { }
@@ -14,22 +18,37 @@ export class MoviesPage implements OnInit {
   ngOnInit() { }
 
   onIonChange(event) {
-    this.searchMovies(event.detail.value);
+    this.searchMovies();
   }
 
-  searchMovies(s) {
-    let movie = { s };
+  onIonInfinite(event) {
+    this.doOnIonInfinite(event);
+  }
 
-    this.service.search(movie).subscribe(response => {
-      console.log(response);
-      if (response.Response == "False") {
-        this.items = [];
+  searchMovies() {
+    this.service.loadNextPage(0, this.term, (error, response) => {
+      if (error) {
+        console.log(error);
         return;
       }
 
       this.items = response.Search;
-    }, error => {
-      console.log(error);
+      this.totalPages = Math.ceil(response.totalResults / this.itemsPerPage);
+      this.page = 1;
     });
   }
+
+  doOnIonInfinite(event) {
+    this.service.loadNextPage(this.page, this.term, (error, response) => {
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      this.items = [...this.items, ...response.Search];
+      event.target.complete();
+      this.page++;
+    })
+  }
+
 }

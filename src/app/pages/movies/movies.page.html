@@ -3,7 +3,7 @@
     <ion-title>Movies app</ion-title>
   </ion-toolbar>
   <ion-toolbar color="primary">
-    <ion-searchbar debounce="500" animated placeholder="Search movies" ([ngModel])="term" (ionChange)="onIonChange($event)"></ion-searchbar>
+    <ion-searchbar debounce="500" animated placeholder="Search movies" [(ngModel)]="term" (ionChange)="onIonChange($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -19,4 +19,9 @@
       </ion-label>
     </ion-item>
   </ion-virtual-scroll>
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" *ngIf="page < totalPages">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

@@ -23,6 +23,20 @@ export class MovieService {
     return this.http.get(url);
   }
 
+  loadNextPage(curr_page, term, callback) {
+    let page = curr_page + 1;
+    let movie = { s: term, page };
+
+    this.search(movie).subscribe(response => {
+      console.log(response);
+      if (response.Response == "True") {
+        callback(null, response);
+      }
+    }, error => {
+      callback(error, null);
+    });
+  }
+
   getDetails(i): Observable<any> {
     return this.search({ i });
   }
