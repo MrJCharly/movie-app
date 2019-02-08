@@ -1,12 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-back-button slot="start" defaultHref="/"></ion-back-button>
-    <ion-title>{{ details.Type || "Details" }}</ion-title>
+    <ion-title *ngIf="details">{{ details.Type || "Details" }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-card>
+  <ion-card *ngIf="details">
     <ion-card-header>
       <ion-card-title>{{ details.Title }}</ion-card-title>
       <ion-card-subtitle>{{ details.Year }}</ion-card-subtitle>
