@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../../services/movieService.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-movies',
@@ -13,42 +14,87 @@ export class MoviesPage implements OnInit {
   page = 0;
   items = [];
 
-  constructor(private service: MovieService) { }
+  constructor(
+    private service: MovieService,
+    private loadingCtrl: LoadingController) { }
 
   ngOnInit() { }
 
   onIonChange(event) {
-    this.searchMovies();
+    this.loadFirstPage();
   }
 
   onIonInfinite(event) {
     this.doOnIonInfinite(event);
   }
 
-  searchMovies() {
+  loadFirstPage() {
+    this.createLoading();
     this.service.loadNextPage(0, this.term, (error, response) => {
       if (error) {
+        this.closeLoading();
         console.log(error);
         return;
       }
 
       this.items = response.Search;
       this.totalPages = Math.ceil(response.totalResults / this.itemsPerPage);
-      this.page = 1;
+
+      if (this.totalPages == 1) {
+        this.closeLoading();
+        this.page = 1;
+        return;
+      }
+
+      // Load next page so the list reaches screen's bottom.
+      this.service.loadNextPage(1, this.term, (error, response) => {
+        if (error) {
+          this.closeLoading();
+          console.log(error);
+          return;
+        }
+
+        this.closeLoading();
+        this.items = [...this.items, ...response.Search];
+        this.page = 2;
+      });
     });
   }
 
   doOnIonInfinite(event) {
+    this.createLoading();
     this.service.loadNextPage(this.page, this.term, (error, response) => {
       if (error) {
+        this.closeLoading();
         console.log(error);
         return;
       }
 
+      this.closeLoading();
       this.items = [...this.items, ...response.Search];
       event.target.complete();
       this.page++;
     })
   }
 
+  async createLoading() {
+    const loading = await this.loadingCtrl.create({
+      showBackdrop: false,
+      translucent: true,
+      spinner: null,
+      duration: 500
+    });
+
+    return await loading.present();
+  }
+
+  async closeLoading() {
+    const loading = await this.loadingCtrl.getTop();
+
+    if (!loading) {
+      return;
+    }
+
+    return await loading.dismiss();
+  }
 }
