@@ -29,10 +29,8 @@ export class MoviesPage implements OnInit {
   }
 
   loadFirstPage() {
-    this.createLoading();
     this.service.loadNextPage(0, this.term, (error, response) => {
       if (error) {
-        this.closeLoading();
         console.log(error);
         return;
       }
@@ -41,7 +39,6 @@ export class MoviesPage implements OnInit {
       this.totalPages = Math.ceil(response.totalResults / this.itemsPerPage);
 
       if (this.totalPages == 1) {
-        this.closeLoading();
         this.page = 1;
         return;
       }
@@ -49,12 +46,10 @@ export class MoviesPage implements OnInit {
       // Load next page so the list reaches screen's bottom.
       this.service.loadNextPage(1, this.term, (error, response) => {
         if (error) {
-          this.closeLoading();
           console.log(error);
           return;
         }
 
-        this.closeLoading();
         this.items = [...this.items, ...response.Search];
         this.page = 2;
       });
@@ -62,15 +57,12 @@ export class MoviesPage implements OnInit {
   }
 
   doOnIonInfinite(event) {
-    this.createLoading();
     this.service.loadNextPage(this.page, this.term, (error, response) => {
       if (error) {
-        this.closeLoading();
         console.log(error);
         return;
       }
 
-      this.closeLoading();
       this.items = [...this.items, ...response.Search];
       event.target.complete();
       this.page++;

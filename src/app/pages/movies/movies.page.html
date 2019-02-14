@@ -8,8 +8,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-virtual-scroll [items]="items">
-    <ion-item button *virtualItem="let item" [routerLink]="['/', 'movie-details', item.imdbID]" detail>
+  <ion-list>
+    <ion-item button *ngFor="let item of items" [routerLink]="['/', 'movie-details', item.imdbID]" detail>
       <ion-avatar item-start margin-end>
         <ion-img [src]="item.Poster" *ngIf="item.Poster != 'N/A'"></ion-img>
       </ion-avatar>
@@ -18,7 +18,7 @@
         {{ item.Year }}
       </ion-label>
     </ion-item>
-  </ion-virtual-scroll>
+  </ion-list>
 
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" *ngIf="page < totalPages">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading...">
