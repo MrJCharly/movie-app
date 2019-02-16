@@ -68,8 +68,4 @@ export class MoviesPage implements OnInit {
       this.page++;
     })
   }
-
-  onIonImgDidLoad(item) {
-    item.PosterLoaded = true;
-  }
 }

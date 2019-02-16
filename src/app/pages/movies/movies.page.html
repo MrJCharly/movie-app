@@ -10,10 +10,9 @@
 <ion-content>
   <ion-list>
     <ion-item button *ngFor="let item of items" [routerLink]="['/', 'movie-details', item.imdbID]" detail>
-      <img src="assets/ajax-loader.gif" *ngIf="item.Poster && item.Poster != 'N/A' && !item.PosterLoaded"/>
       <ion-avatar item-start margin-end>
-        <img src="assets/poster-fallback.svg" *ngIf="item.Poster && item.Poster == 'N/A'"/>
-        <ion-img [src]="item.Poster" *ngIf="item.Poster && item.Poster != 'N/A'" (ionImgDidLoad)="onIonImgDidLoad(item)"></ion-img>
+        <img src="assets/poster-fallback.svg" *ngIf="!item.Poster || item.Poster == 'N/A'"/>
+        <ion-img [src]="item.Poster" *ngIf="item.Poster && item.Poster != 'N/A'"></ion-img>
       </ion-avatar>
       <ion-label text-wrap>
         <h3>{{ item.Title }}</h3>
