@@ -3,11 +3,14 @@
     <ion-title>Movies app</ion-title>
   </ion-toolbar>
   <ion-toolbar color="primary">
-    <ion-searchbar debounce="500" animated placeholder="Search movies" [(ngModel)]="term" (ionChange)="onIonChange($event)"></ion-searchbar>
+    <ion-searchbar debounce="500" placeholder="Search movies" [(ngModel)]="term" (ionChange)="onIonChange($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div *ngIf="searching" name="crescent" class="spinner-container">
+      <ion-spinner></ion-spinner>
+  </div>
   <ion-list>
     <ion-item button *ngFor="let item of items" [routerLink]="['/', 'movie-details', item.imdbID]" detail>
       <ion-avatar item-start margin-end>
@@ -22,7 +25,7 @@
   </ion-list>
 
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" *ngIf="page < totalPages">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading...">
+    <ion-infinite-scroll-content loadingSpinner="crescent">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

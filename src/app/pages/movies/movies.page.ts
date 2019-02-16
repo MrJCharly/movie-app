@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../../services/movieService.service';
-import { LoadingController, IonApp } from '@ionic/angular';
 
 @Component({
   selector: 'app-movies',
@@ -8,6 +7,7 @@ import { LoadingController, IonApp } from '@ionic/angular';
   styleUrls: ['./movies.page.scss'],
 })
 export class MoviesPage implements OnInit {
+  searching = false;
   totalPages = 0;
   itemsPerPage = 10;
   term = "";
@@ -15,8 +15,7 @@ export class MoviesPage implements OnInit {
   items = [];
 
   constructor(
-    private service: MovieService,
-    private loadingCtrl: LoadingController) { }
+    private service: MovieService) { }
 
   ngOnInit() { }
 
@@ -29,8 +28,10 @@ export class MoviesPage implements OnInit {
   }
 
   loadFirstPage() {
+    this.searching = true;
     this.service.loadNextPage(0, this.term, (error, response) => {
       if (error) {
+        this.searching = false;
         console.log(error);
         return;
       }
@@ -39,6 +40,7 @@ export class MoviesPage implements OnInit {
       this.totalPages = Math.ceil(response.totalResults / this.itemsPerPage);
 
       if (this.totalPages == 1) {
+        this.searching = false;
         this.page = 1;
         return;
       }
@@ -46,10 +48,12 @@ export class MoviesPage implements OnInit {
       // Load next page so the list reaches screen's bottom.
       this.service.loadNextPage(1, this.term, (error, response) => {
         if (error) {
+          this.searching = false;
           console.log(error);
           return;
         }
 
+        this.searching = false;
         this.items = [...this.items, ...response.Search];
         this.page = 2;
       });
@@ -57,12 +61,15 @@ export class MoviesPage implements OnInit {
   }
 
   doOnIonInfinite(event) {
+    this.searching = true;
     this.service.loadNextPage(this.page, this.term, (error, response) => {
       if (error) {
+        this.searching = false;
         console.log(error);
         return;
       }
 
+      this.searching = false;
       this.items = [...this.items, ...response.Search];
       event.target.complete();
       this.page++;
