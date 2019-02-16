@@ -29,11 +29,13 @@ export class MovieService {
 
     this.search(movie).subscribe(response => {
       console.log(response);
-      if (response.Response == "True") {
-        callback(null, response);
+      if (response.Response == "False") {
+        return callback({ type: "Search", message: response.Error }, null);
       }
+
+      callback(null, response);
     }, error => {
-      callback(error, null);
+      return callback({ type: "Http", message: "An unexpected error ocurred." }, null);
     });
   }
 

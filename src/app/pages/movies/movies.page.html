@@ -11,6 +11,17 @@
   <div *ngIf="searching" name="crescent" class="spinner-container">
       <ion-spinner></ion-spinner>
   </div>
+
+  <ion-chip margin *ngIf="!error && !searching && items.length == 0" color="primary">
+    <ion-icon name="information-circle-outline"></ion-icon>
+    <ion-label>No movies found!</ion-label>
+  </ion-chip>
+
+  <ion-chip margin *ngIf="error && !searching" color="danger">
+    <ion-icon name="close-circle-outline"></ion-icon>
+    <ion-label>{{ error.message }}</ion-label>
+  </ion-chip>
+
   <ion-list>
     <ion-item button *ngFor="let item of items" [routerLink]="['/', 'movie-details', item.imdbID]" detail>
       <ion-avatar item-start margin-end>
@@ -24,7 +35,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" *ngIf="page < totalPages">
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" *ngIf="!error && page < totalPages">
     <ion-infinite-scroll-content loadingSpinner="crescent">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
