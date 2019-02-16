@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../../services/movieService.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, IonApp } from '@ionic/angular';
 
 @Component({
   selector: 'app-movies',
@@ -69,24 +69,7 @@ export class MoviesPage implements OnInit {
     })
   }
 
-  async createLoading() {
-    const loading = await this.loadingCtrl.create({
-      showBackdrop: false,
-      translucent: true,
-      spinner: null,
-      duration: 500
-    });
-
-    return await loading.present();
-  }
-
-  async closeLoading() {
-    const loading = await this.loadingCtrl.getTop();
-
-    if (!loading) {
-      return;
-    }
-
-    return await loading.dismiss();
+  onIonImgDidLoad(item) {
+    item.PosterLoaded = true;
   }
 }
